@@ -1,24 +1,43 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useReducer } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import SignUp from './pages/SignUp';
+import Login from './pages/Login';
+import PublicRoute from './components/PublicRoute';
+import PrivateRoute from './components/PrivateRoute';
+
+const initialState = {
+  authenticated: false,
+  loading: true,
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    default:
+      return state;
+  }
+}
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { authenticated } = state;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" element={Home} />
+        <PublicRoute
+          path="/signup"
+          authenticated={authenticated}
+          element={SignUp}
+        />
+        <PublicRoute
+          path="/login"
+          authenticated={authenticated}
+          element={Login}
+        />
+      </Switch>
+    </BrowserRouter>
   );
 }
 
